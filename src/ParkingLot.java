@@ -23,20 +23,28 @@ public class ParkingLot {
         return parkingSpots.size() < capacity;
     }
 
-    public void enterCar(Car car) throws ParkingUnavailableException, ExpiredTicketException {
+    public void enterCar(String numberPlate) throws ParkingUnavailableException, ExpiredTicketException {
         if (!hasSpace()) {
             throw new ParkingUnavailableException();
         }
 
         Ticket ticket = new Ticket();
+        Car car = new Car(numberPlate, ticket);
+        parkingSpots.add(car);
         car.handTicket(ticket);
     }
 
-    public void exitCar(Car car) {
-        parkingSpots.remove(car);
-        Ticket ticket = car.returnTicket();
+    public Car exitCar(String numberPlate) {
+        Car car = parkingSpots.stream()
+                .filter(f -> f.getNumberPlate().equals(numberPlate))
+                .findFirst().get();
 
+        Ticket ticket = car.returnTicket();
         Duration duration = ticket.setExpired();
+
         totalMoney += PricingCalculator.calcuateCost(duration);
+        parkingSpots.remove(car);
+
+        return car;
     }
 }

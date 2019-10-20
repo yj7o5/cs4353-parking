@@ -9,6 +9,10 @@ public class Car {
         ticket = _ticket;
     }
 
+    public String getNumberPlate() {
+        return numberPlate;
+    }
+
     public void handTicket(Ticket _ticket) throws ExpiredTicketException {
         if (_ticket.isExpired()) {
             throw new ExpiredTicketException(_ticket.getUsageDuration());
