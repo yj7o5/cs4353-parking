@@ -1,35 +1,42 @@
+import Exceptions.ExpiredTicketException;
 import Exceptions.ParkingUnavailableException;
 
-import java.lang.reflect.Array;
+import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Queue;
 
 public class ParkingLot {
     private int capacity;
+    private int totalMoney;
 
-    private ArrayList<Object> parkingSpots;
+    private ArrayList<Car> parkingSpots;
 
     public ParkingLot(int _capacity) {
-        parkingSpots = new ArrayList<Object>(_capacity);
+        parkingSpots = new ArrayList<Car>(_capacity);
         capacity = _capacity;
+    }
+
+    public int getTotalMoney() {
+        return totalMoney;
     }
 
     private boolean hasSpace() {
         return parkingSpots.size() < capacity;
     }
 
-    public void enterCar(Object car) throws ParkingUnavailableException {
+    public void enterCar(Car car) throws ParkingUnavailableException, ExpiredTicketException {
         if (!hasSpace()) {
             throw new ParkingUnavailableException();
         }
 
-        // cat.ticket = new Ticket();
+        Ticket ticket = new Ticket();
+        car.handTicket(ticket);
     }
 
-    public void exitCar(Object car) {
-        // Charge the car
-
+    public void exitCar(Car car) {
         parkingSpots.remove(car);
+        Ticket ticket = car.returnTicket();
+
+        Duration duration = ticket.setExpired();
+        totalMoney += PricingCalculator.calcuateCost(duration);
     }
 }
