@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
-        ArrayList<Data> list = new Main().readFileData();
+        ArrayList<Data> list = new Main().getSample("sample-1.dat");
         int totalCars = list.size();
 
         ParkingLot lot = new ParkingLot(5);
@@ -50,9 +50,9 @@ public class Main {
         System.out.println(String.format("Total Cars Served: %s, Total Profit: $%s", totalCars, lot.getTotalMoney()));
     }
 
-    public ArrayList<Data> readFileData() {
+    public ArrayList<Data> getSample(String sampleFile) {
         ArrayList<Data> collection = new ArrayList<Data>();
-        InputStream data = Main.class.getResourceAsStream("cars.dat");
+        InputStream data = Main.class.getResourceAsStream(sampleFile);
         Scanner sc = new Scanner(data);
 
         sc.nextLine(); // skip file headers
