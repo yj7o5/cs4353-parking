@@ -1,5 +1,3 @@
-import Exceptions.ExpiredTicketException;
-
 public class Car {
     private Ticket ticket;
     private String numberPlate;

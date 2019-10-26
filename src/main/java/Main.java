@@ -1,6 +1,3 @@
-import Exceptions.ExpiredTicketException;
-import Exceptions.ParkingUnavailableException;
-
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
